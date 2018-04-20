@@ -1,4 +1,11 @@
+<?php 
+    include_once("includes/session.php");
+    include_once("includes/config.php");
 
+    //Select Blog Items
+    $getblog = "SELECT * FROM blog";
+    $gettingblog = mysql_query($getblog);
+?>
 <!DOCTYPE html>
 <html lang="uk">
 	<head>
