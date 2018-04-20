@@ -2,9 +2,30 @@
     include_once("includes/session.php");
     include_once("includes/config.php");
 
-    //Select Blog Items
-    $getblog = "SELECT * FROM blog";
-    $gettingblog = mysql_query($getblog);
+    $getsearch = '';
+
+    if(isset($_GET['search']))
+    {
+    	$getsearch = mysql_real_escape_string(trim($_GET['search']));
+    }    
+
+
+    if($getsearch == 'latest')
+    {
+    	//Select Latest Blog Items
+	    $getblog = "SELECT * FROM blog ORDER BY id DESC";
+	    $gettingblog = mysql_query($getblog);
+    }else if($getsearch == 'popular')
+    {
+    	//Select Popular Blog Items
+	    $getblog = "SELECT * FROM blog ORDER BY counter DESC";
+	    $gettingblog = mysql_query($getblog);
+    }else{
+    	//Select Blog Items
+	    $getblog = "SELECT * FROM blog";
+	    $gettingblog = mysql_query($getblog);
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="uk">
@@ -86,22 +107,23 @@
 				<div class="categoryList">
 					<span>Category <i></i></span>
 					<ul>
-						<li class="current"><a href="#">Latest</a></li>
-						<li><a href="#">Popular</a></li>
-						<li><a href="#">Most Viewed</a></li>
+						<li class="current"><a href="blog.php?search=latest">Latest</a></li>
+						<li><a href="blog.php?search=popular">Popular</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="eventsWrap">
+				<?php if(mysql_num_rows($gettingblog) > 0): ?>
+				<?php while($blogrow = mysql_fetch_array($gettingblog)):?>
 				<div class="eventItem clear">
 					<a href="#" class="eventItemImg">
-						<img src="images/content/eventsItem.jpg" alt="">
+						<img src="<?php echo $blogrow['cover_photo'];?>" alt="">
 					</a>
 					<div class="eventItemDesc">
-						<time class="eventItemTime" datetime="2018-02-01">February 1, 2018 12:00 PM</time>
-						<h3><a href="#">What you need to know about Pre-Natal Yoga</a></h3>
-						<p>Practice loving compassion both for you and your baby. Yoga stretches is one of the best thing that you can do at anytime and by yourself....</p>
-						<a href="#" class="eventLearnMore">learn more
+						<time class="eventItemTime" datetime="<?php echo $blogrow['date'];?>"><?php echo date_format(date_create($blogrow['date']), 'F jS, Y');?></time>
+						<h3><a href="#"><?php echo $blogrow['title'];?></a></h3>
+						<p><?php echo $blogrow['summary'];?>...</p>
+						<a href="article.php?id=<?php echo $blogrow['blog_code'];?>" class="eventLearnMore">learn more
 							<i>
 								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="38px" height="38px" viewBox="0 0 38 38" enable-background="new 0 0 38 38" xml:space="preserve">
 									<path fill="#D73C19" d="M16.558 11.5l6.884 6.494l1.059 0.999v0.015L16.558 26.5L15.5 25.486l6.882-6.494L15.5 12.5L16.558 11.5z"/>
@@ -110,41 +132,9 @@
 						</a>
 					</div>
 				</div>
-				<div class="eventItem clear">
-					<a href="#" class="eventItemImg">
-						<img src="images/content/eventsItem2.jpg" alt="">
-					</a>
-					<div class="eventItemDesc">
-						<time class="eventItemTime" datetime="2018-01-17">January 17, 2018 12:00 PM</time>
-						<h3><a href="#">Why you shouldn't go to Yoga</a></h3>
-						<p>Despite the controversy, yoga is beneficial to kids in many ways. Because children encounter emotional, social and physical challenges or...</p>
-						<a href="#" class="eventLearnMore">learn more
-							<i>
-								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="38px" height="38px" viewBox="0 0 38 38" enable-background="new 0 0 38 38" xml:space="preserve">
-									<path fill="#D73C19" d="M16.558 11.5l6.884 6.494l1.059 0.999v0.015L16.558 26.5L15.5 25.486l6.882-6.494L15.5 12.5L16.558 11.5z"/>
-								</svg>
-							</i>
-						</a>
-					</div>
-				</div>
-				<div class="eventItem clear">
-					<a href="#" class="eventItemImg">
-						<img src="images/content/eventsItem3.jpg" alt="">
-					</a>
-					<div class="eventItemDesc">
-						<time class="eventItemTime" datetime="2015-02-01">February 1, 2015 12:00 PM</time>
-						<h3><a href="#">Yoga at 50</a></h3>
-						<p>Yoga has the capacity to increase your flexibility, whatever your age level of fitness. You don’t have to be in your 30s before starting. Yoga is proven stress reliever, boost willpower and great for bone health..</p>
-						<a href="#" class="eventLearnMore">learn more
-							<i>
-								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="38px" height="38px" viewBox="0 0 38 38" enable-background="new 0 0 38 38" xml:space="preserve">
-									<path fill="#D73C19" d="M16.558 11.5l6.884 6.494l1.059 0.999v0.015L16.558 26.5L15.5 25.486l6.882-6.494L15.5 12.5L16.558 11.5z"/>
-								</svg>
-							</i>
-						</a>
-					</div>
-				</div>
-				<span class="showMoreEvents">show more</span>
+				<?php endwhile;?>
+				<?php endif;?>
+				<!-- <span class="showMoreEvents">show more</span> -->
 			</div>
 			<div class="subscribeBox" style="background-image: url(images/content/subscribe.jpg);">
 				<i class="iconEmail"></i>

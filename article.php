@@ -1,3 +1,23 @@
+<?php 
+    include_once("includes/session.php");
+    include_once("includes/config.php");
+
+    $getid = mysql_real_escape_string(trim($_GET['id']));
+
+
+    if($getid != '')
+    {
+    	//Select Blog article
+	    $getblog = "SELECT * FROM blog WHERE blog_code='$getid'";
+	    $gettingblog = mysql_query($getblog);
+
+	    $updateblog = "UPDATE blog SET counter=counter+1 WHERE blog_code='$getid'";
+	    $updatingblog = mysql_query($updateblog);
+    }else{
+    	header("Location:blog.php");
+    }   
+    
+?>
 <!DOCTYPE html>
 <html lang="uk">
 	<head>
@@ -54,7 +74,7 @@
 						<a href="gallery.html">Gallery</a>
 					</li>
 					<li>
-						<a href="blog.html">Blog</a>
+						<a href="blog.php">Blog</a>
 					</li>
 					<li>
 						<a href="contact.html">Contact</a>
@@ -73,24 +93,50 @@
 		<div class="pageHeader" style="background-image: url(images/content/singleEvent05.jpg); margin-bottom:50px">
 		</div>
 		<div class="contentWrap">
-			<div class="wrapper">
+			<?php if(mysql_num_rows($gettingblog) > 0): ?>
+			<?php while($blogrow = mysql_fetch_array($gettingblog)):?>
+			<div class="wrapper">			
 				<div class="singlePostWrap">
-					<h1>Yoga at 50</h1>
-					<p>Yoga has the capacity to increase your flexibility, whatever your age level of fitness.<br>You don’t have to be in your 30s before starting. Yoga is proven stress reliever, boost willpower and great for bone health.</p>
-					<p>Yoga has no age group, body size or strength level. You can be fifty and above and still be as flexible as you want to be, you may not be able to touch your toes or seat and get up swiftly like the younger age. All the reasons not to stretch might be staring at your face like, backache, neck stiffness, arthritis, scoliosis, autoimmune related issues etc. <br>You can never be too stiff to start being flexible. Yoga gives you the opportunity to grow into poses with you leading through your steady and easy breathing.</h5>
-					<p>There are lots of benefits of doing yoga after you hit 50 and above.</p>
-					<h5>Increase in flexibility:</h5>
-					<p>With regular practise brings supple to your elasticity, Ease aches and pains, seated floor postures will help loosen the body by releasing the tension it holds so it can find its balance.</p>
-					<img class="size-full" src="images/content/postimg001.jpg" alt="">
-					<h5>Boost mood:</h5>
-					<p>Yoga has the capacity to heal and transform us at any age. Some people above 50 have the experience of loneliness and isolation now and then, doing gentle yoga stretches in yoga class or private session with a certified instructor will give you a sense of belonging even after your practise. Poses like backbends and inversions clears the mind.</p>
-					<img class="size-full" src="images/content/postimg02.jpg" alt="">
-					<h5>Improve balance:</h5>
-					<p>Yoga tones your muscles through balance posture, and works on your sense of position in space, regular practice makes you stronger and more flexible as you gain your balance.But if you lead a sedentary lifestyle your balance decline. Standing/balancing pose teaches you firm grounding.</p>
-					<p>Put a little effort in your practise and in your daily routine, with the right mind set of what you want to achieve you will forget the setbacks in the long haul.</p>
-					<img class="size-full" src="images/content/postimg03.jpg" alt="">
+					<h1><?php echo $blogrow['title'];?></h1>
+					<p><?php echo $blogrow['summary'];?></p>
+					<p><?php echo $blogrow['body'];?></p>
+					<h4>Comments</h4>
+					<?php 
+						$blog_code = $blogrow['blog_code'];
+
+						//Select Blog article
+					    $getblogcomm = "SELECT * FROM comment WHERE comment_blog='$blog_code'";
+					    $gettingblogcomm = mysql_query($getblogcomm);
+
+						if(mysql_num_rows($gettingblogcomm) > 0){ 
+					?>
+					<?php while($blogcommrow = mysql_fetch_array($gettingblogcomm)):?>
+					<p>
+						<ul>
+							<li><sup><?php echo $blogcommrow['comment_author'];?></sup><br>
+							<?php echo $blogcommrow['comment_body'];?></li>
+						</ul>
+					</p>
+					<?php endwhile;?>
+					<?php }else{ ?>
+					<p>No comments.</p>
+					<?php } ?>
 				</div>
 			</div>
+
+			<div class="subscribeBox" style="background-image: url(images/content/subscribe.jpg);">
+				<i class="iconEmail"></i>
+				<h3>Leave</h3>
+				<p>Your Comment</p>
+				<form class="clear" action='commenting.php' method="POST">
+					<input class="" type="hidden" name="comment_blog" value="<?php echo $blogrow['blog_code'];?>" >
+					<input class="" type="text" name="comment_body" value="" placeholder="Your Comment">
+					<input class="subscribeSubmit" type="submit" value="Submit">
+				</form>
+			</div>
+
+			<?php endwhile;?>
+			<?php endif;?>
 		</div>
 	</section>
 
@@ -105,7 +151,7 @@
 			<li><a href="about.html">About</a></li>
 			<li><a href="classes.html">Classes</a></li>
 			<li><a href="gallery.html">Gallery</a></li>
-			<li><a href="blog.html">Blog</a></li>
+			<li><a href="blog.php">Blog</a></li>
 			<li><a href="contact.html">Contact</a></li>
 		</ul>
 		<div class="footerSubscribe">
@@ -137,7 +183,7 @@
 				<a href="gallery.html">Gallery</a>
 			</li>
 			<li>
-				<a href="blog.html">Blog</a>
+				<a href="blog.php">Blog</a>
 			</li>
 			<li>
 				<a href="contact.html">Contact</a>
