@@ -497,10 +497,11 @@ span.price span {position: relative;top: -11px;left: -2px; font-size: 14px;}
 .subscribeBox h3 {margin-bottom: 38px; color: #fff;font-size: 42px;font-family: 'Lato', sans-serif;font-weight: 300;text-transform: uppercase;}
 .subscribeBox p {line-height: 32px;margin-bottom: 53px; color: #fff;font-size: 22px;font-family: 'Lato', sans-serif;font-weight: 300;}
 .subscribeBox form {width: 510px;margin: 0 auto;}
-.subscribeBox form input[type="text"] {float: left; width: 340px;height: 46px;padding: 0 22px; border: 2px solid #fff;background: rgba(0,0,0,0);color: #fff;font-size: 12px;font-family: 'Montserrat', sans-serif;-webkit-border-radius: 23px;-moz-border-radius: 23px;border-radius: 23px; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing: border-box;}
-.subscribeBox form input[type="text"]::-moz-placeholder {opacity: 1;color: #fff;}
-.subscribeBox form input[type="text"]:-ms-input-placeholder {color: #fff;}
-.subscribeBox form input[type="text"]::-webkit-input-placeholder {color: #fff;}
+.subscribeBox form input[type="text"], .subscribeBox form textarea {float: left; width: 340px;height: 46px;padding: 0 22px; border: 2px solid #fff;background: rgba(0,0,0,0);color: #fff;font-size: 12px;font-family: 'Montserrat', sans-serif;-webkit-border-radius: 23px;-moz-border-radius: 23px;border-radius: 23px; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing: border-box;}
+.subscribeBox form textarea {height: 120px;margin-top: 5px; padding-top: 10px}
+.subscribeBox form input[type="text"]::-moz-placeholder, .subscribeBox form textarea::-moz-placeholder {opacity: 1;color: #fff;}
+.subscribeBox form input[type="text"]:-ms-input-placeholder, .subscribeBox form textarea:-ms-input-placeholder {color: #fff;}
+.subscribeBox form input[type="text"]::-webkit-input-placeholder, .subscribeBox form textarea::-webkit-input-placeholder {color: #fff;}
 .subscribeSubmit {float: right;width: 150px;height: 46px;border: 2px solid #d73c19;background: #d73c19;color: #fff;font-size: 12px;font-family: 'Montserrat', sans-serif;text-transform: uppercase;text-align: center;-webkit-border-radius: 23px;-moz-border-radius: 23px;border-radius: 23px;-webkit-transition: background 0.3s ease, border 0.3s ease;-moz-transition: background 0.3s ease, border 0.3s ease;-o-transition: background 0.3s ease, border 0.3s ease;transition: background 0.3s ease, border 0.3s ease; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing: border-box;}
 .subscribeSubmit:hover {background: #e24e2d;border-color: #e24e2d;}
 

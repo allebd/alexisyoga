@@ -130,7 +130,8 @@
 				<p>Your Comment</p>
 				<form class="clear" action='commenting.php' method="POST">
 					<input class="" type="hidden" name="comment_blog" value="<?php echo $blogrow['blog_code'];?>" >
-					<input class="" type="text" name="comment_body" value="" placeholder="Your Comment">
+					<input class="" type="text" name="comment_author" value="" placeholder="Your Name" required>
+					<textarea name="comment_body" value="" placeholder="Your Comment" required></textarea>
 					<input class="subscribeSubmit" type="submit" value="Submit">
 				</form>
 			</div>
